@@ -1,0 +1,135 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@config '../../../tailwind.config.mjs';
+
+@custom-variant dark (&:is([data-theme='dark'] *));
+@custom-variant sm (@media (width >= theme(--breakpoint-sm)));
+@custom-variant md (@media (width >= theme(--breakpoint-md)));
+@custom-variant lg (@media (width >= theme(--breakpoint-lg)));
+@custom-variant xl (@media (width >= theme(--breakpoint-xl)));
+@custom-variant 2xl (@media (width >= theme(--breakpoint-2xl)));
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: unset;
+    font-size: unset;
+  }
+}
+
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+  --breakpoint-2xl: 86rem;
+  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-geist-sans);
+}
+
+@layer utilities {
+  .container {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+  @variant sm { .container { max-width: var(--breakpoint-sm); } }
+  @variant md { .container { max-width: var(--breakpoint-md); padding-inline: 2rem; } }
+  @variant lg { .container { max-width: var(--breakpoint-lg); } }
+  @variant xl { .container { max-width: var(--breakpoint-xl); } }
+  @variant 2xl { .container { max-width: var(--breakpoint-2xl); } }
+}
+
+/* ── AURORA BACKGROUND (replaces dark brown) ────────────────── */
+:root {
+  --aurora-1: #0f2b3d;
+  --aurora-2: #373a1e;
+  --aurora-3: #1e3a2f;
+  --aurora-4: #3d301e;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    background: radial-gradient(circle at 20% 30%, var(--aurora-1), var(--aurora-2), var(--aurora-3), var(--aurora-4));
+    background-size: 200% 200%;
+    animation: auroraFlow 18s ease infinite;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: rgba(245, 220, 160, 0.92);
+  }
+}
+
+@keyframes auroraFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Keep existing gold/melanin CSS variables for other elements */
+:root {
+  --background: oklch(14% 0.04 45deg); /* fallback, not used for body bg anymore */
+  --foreground: oklch(88% 0.08 72deg);
+  --card: oklch(17% 0.05 42deg);
+  --card-foreground: oklch(88% 0.08 72deg);
+  --popover: oklch(14% 0.04 45deg);
+  --popover-foreground: oklch(88% 0.08 72deg);
+  --primary: oklch(72% 0.14 72deg);
+  --primary-foreground: oklch(14% 0.04 45deg);
+  --secondary: oklch(22% 0.06 44deg);
+  --secondary-foreground: oklch(85% 0.08 70deg);
+  --muted: oklch(20% 0.05 43deg);
+  --muted-foreground: oklch(58% 0.07 65deg);
+  --accent: oklch(72% 0.16 76deg);
+  --accent-foreground: oklch(14% 0.04 45deg);
+  --destructive: oklch(57.7% 0.245 27.325deg);
+  --destructive-foreground: oklch(57.7% 0.245 27.325deg);
+  --border: oklch(28% 0.07 46deg);
+  --input: oklch(24% 0.06 44deg);
+  --ring: oklch(60% 0.12 70deg);
+  --radius: 0.625rem;
+  --sidebar: oklch(16% 0.05 44deg);
+  --sidebar-foreground: oklch(85% 0.08 70deg);
+  --sidebar-primary: oklch(72% 0.14 72deg);
+  --sidebar-primary-foreground: oklch(14% 0.04 45deg);
+  --sidebar-accent: oklch(22% 0.06 44deg);
+  --sidebar-accent-foreground: oklch(85% 0.08 70deg);
+  --sidebar-border: oklch(28% 0.07 46deg);
+  --sidebar-ring: oklch(60% 0.12 70deg);
+  --success: oklch(62% 0.1 155deg);
+  --warning: oklch(78% 0.12 75deg);
+  --error: oklch(60% 0.18 25deg);
+}
+
+[data-theme='dark'] {
+  /* Keep dark theme overrides but aurora will still show */
+  --background: oklch(11% 0.04 42deg);
+  --foreground: oklch(88% 0.08 72deg);
+  /* ... rest unchanged */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-border: var(--border);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+}
+
+html {
+  opacity: 0;
+}
+html[data-theme='dark'],
+html[data-theme='light'] {
+  opacity: initial;
+}
