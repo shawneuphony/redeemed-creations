@@ -2,17 +2,17 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 import NavbarClient from "./NavbarClient";
 
-// Fallback data shown if the Navigation global hasn't been seeded yet
+// Fallback data matching the new design
 const FALLBACK = {
-  logo: "Storefront",
+  logo: "Redeemed Creations",
   links: [
-    { label: "Shop",       href: "/shop",       openInNewTab: false },
-    { label: "Categories", href: "/categories", openInNewTab: false },
-    { label: "About",      href: "/about",      openInNewTab: false },
-    { label: "Journal",    href: "/journal",    openInNewTab: false },
-    { label: "Contact",    href: "/contact",    openInNewTab: false },
+    { label: "Vidéos & Événements", href: "/videos", openInNewTab: false },
+    { label: "Cas clients",          href: "/cas-clients", openInNewTab: false },
+    { label: "À propos",             href: "/about", openInNewTab: false },
+    { label: "Blog",                 href: "/blog", openInNewTab: false },
+    { label: "Contact",              href: "/contact", openInNewTab: false },
   ],
-  cta: { label: "Shop Now", href: "/shop" },
+  cta: { label: "Prendre RDV", href: "/contact" },
 };
 
 async function getNavigation() {
@@ -29,7 +29,6 @@ async function getNavigation() {
       },
     };
   } catch (err) {
-    // If Payload isn't ready yet (e.g. first boot), return fallback silently
     console.warn("[Navbar] Could not fetch navigation global, using fallback.", err);
     return FALLBACK;
   }

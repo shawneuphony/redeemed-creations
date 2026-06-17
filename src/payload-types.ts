@@ -1854,7 +1854,7 @@ export interface Navigation {
   createdAt?: string | null;
 }
 /**
- * Controls the full-screen hero section on the homepage. Changes reflect on the live site immediately.
+ * Controls the two‑column hero on the homepage. Changes reflect immediately.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "homepage-hero".
@@ -1862,37 +1862,47 @@ export interface Navigation {
 export interface HomepageHero {
   id: number;
   /**
-   * Choose what fills the hero background. Upload your media below after selecting.
-   */
-  backgroundType: 'gradient' | 'image' | 'video';
-  backgroundImage?: (number | null) | Media;
-  backgroundVideo?: (number | null) | Media;
-  overlayOpacity?: ('light' | 'medium' | 'heavy') | null;
-  gradientColors?: {
-    topRight?: string | null;
-    bottomLeft?: string | null;
-    midLeft?: string | null;
-    bottomRight?: string | null;
-  };
-  /**
-   * Large display text. Keep under 5 words.
+   * Large display text. Mix regular and italic using <i> tags.
    */
   headline: string;
+  subheadline?: string | null;
   /**
-   * Animated pill above the headline. Leave blank to hide.
+   * Small pill above the headline.
    */
-  badge?: string | null;
+  tag?: string | null;
+  /**
+   * Recommended size: 800×600px, portrait or square.
+   */
+  heroImage?: (number | null) | Media;
+  socialProof?: {
+    /**
+     * Add 2–3 small circular photos.
+     */
+    avatars?:
+      | {
+          image: number | Media;
+          id?: string | null;
+        }[]
+      | null;
+    text?: string | null;
+  };
   primaryCta?: {
     label?: string | null;
     href?: string | null;
   };
-  secondaryCta?: {
-    label?: string | null;
-    href?: string | null;
-  };
-  /**
-   * Tiny label above the scroll line. Leave blank to hide.
-   */
+  backgroundType?: ('gradient' | 'image' | 'video') | null;
+  backgroundImage?: (number | null) | Media;
+  backgroundVideo?: (number | null) | Media;
+  overlayOpacity?: string | null;
+  gradientColorsTopRight?: string | null;
+  gradientColorsBottomLeft?: string | null;
+  gradientColorsMidLeft?: string | null;
+  gradientColorsBottomRight?: string | null;
+  badge?: string | null;
+  primaryCtaLabel?: string | null;
+  primaryCtaHref?: string | null;
+  secondaryCtaLabel?: string | null;
+  secondaryCtaHref?: string | null;
   scrollLabel?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -2145,32 +2155,40 @@ export interface NavigationSelect<T extends boolean = true> {
  * via the `definition` "homepage-hero_select".
  */
 export interface HomepageHeroSelect<T extends boolean = true> {
-  backgroundType?: T;
-  backgroundImage?: T;
-  backgroundVideo?: T;
-  overlayOpacity?: T;
-  gradientColors?:
+  headline?: T;
+  subheadline?: T;
+  tag?: T;
+  heroImage?: T;
+  socialProof?:
     | T
     | {
-        topRight?: T;
-        bottomLeft?: T;
-        midLeft?: T;
-        bottomRight?: T;
+        avatars?:
+          | T
+          | {
+              image?: T;
+              id?: T;
+            };
+        text?: T;
       };
-  headline?: T;
-  badge?: T;
   primaryCta?:
     | T
     | {
         label?: T;
         href?: T;
       };
-  secondaryCta?:
-    | T
-    | {
-        label?: T;
-        href?: T;
-      };
+  backgroundType?: T;
+  backgroundImage?: T;
+  backgroundVideo?: T;
+  overlayOpacity?: T;
+  gradientColorsTopRight?: T;
+  gradientColorsBottomLeft?: T;
+  gradientColorsMidLeft?: T;
+  gradientColorsBottomRight?: T;
+  badge?: T;
+  primaryCtaLabel?: T;
+  primaryCtaHref?: T;
+  secondaryCtaLabel?: T;
+  secondaryCtaHref?: T;
   scrollLabel?: T;
   updatedAt?: T;
   createdAt?: T;

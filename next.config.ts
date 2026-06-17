@@ -33,6 +33,12 @@ const nextConfig: NextConfig = {
           protocol: url.protocol.replace(':', '') as 'http' | 'https',
         }
       }),
+      {
+        hostname: 'i.pravatar.cc',
+      },
+      {
+        hostname: 'images.unsplash.com',
+      },
     ],
   },
   webpack: (webpackConfig) => {

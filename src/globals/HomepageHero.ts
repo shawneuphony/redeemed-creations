@@ -4,148 +4,163 @@ const HomepageHero: GlobalConfig = {
   slug: "homepage-hero",
   label: "Homepage Hero",
   admin: {
-    description: "Controls the full-screen hero section on the homepage. Changes reflect on the live site immediately.",
+    description: "Controls the two‑column hero on the homepage. Changes reflect immediately.",
   },
   fields: [
-    {
-      name: "backgroundType",
-      type: "select",
-      label: "Background Type",
-      required: true,
-      defaultValue: "gradient",
-      options: [
-        { label: "Gradient (colour blobs)", value: "gradient" },
-        { label: "Image",                   value: "image"    },
-        { label: "Video",                   value: "video"    },
-      ],
-      admin: {
-        description: "Choose what fills the hero background. Upload your media below after selecting.",
-      },
-    },
-    {
-      name: "backgroundImage",
-      type: "upload",
-      relationTo: "media",
-      label: "Background Image",
-      admin: {
-        condition: (_, siblingData) => siblingData?.backgroundType === "image",
-      },
-    },
-    {
-      name: "backgroundVideo",
-      type: "upload",
-      relationTo: "media",
-      label: "Background Video",
-      admin: {
-        condition: (_, siblingData) => siblingData?.backgroundType === "video",
-      },
-    },
-    {
-      name: "overlayOpacity",
-      type: "select",
-      label: "Dark Overlay Intensity",
-      defaultValue: "medium",
-      options: [
-        { label: "Light  (20%)", value: "light"  },
-        { label: "Medium (50%)", value: "medium" },
-        { label: "Heavy  (75%)", value: "heavy"  },
-      ],
-      admin: {
-        condition: (_, siblingData) => siblingData?.backgroundType === "image" || siblingData?.backgroundType === "video",
-      },
-    },
-    {
-      name: "gradientColors",
-      type: "group",
-      label: "Gradient Blob Colours",
-      admin: {
-        condition: (_, siblingData) => siblingData?.backgroundType === "gradient",
-      },
-      fields: [
-        {
-          type: "row",
-          fields: [
-            {
-              name: "topRight",
-              type: "text",
-              label: "Top right",
-              defaultValue: "#C9962A",
-              admin: { width: "25%" },
-            },
-            {
-              name: "bottomLeft",
-              type: "text",
-              label: "Bottom left",
-              defaultValue: "#8D5524",
-              admin: { width: "25%" },
-            },
-            {
-              name: "midLeft",
-              type: "text",
-              label: "Mid left",
-              defaultValue: "#4A2912",
-              admin: { width: "25%" },
-            },
-            {
-              name: "bottomRight",
-              type: "text",
-              label: "Bottom right",
-              defaultValue: "#F5C842",
-              admin: { width: "25%" },
-            },
-          ],
-        },
-      ],
-    },
+    // ── Existing fields ──────────────────────────────────────────
     {
       name: "headline",
       type: "text",
       label: "Headline",
       required: true,
-      defaultValue: "A living catalog.",
-      admin: { description: "Large display text. Keep under 5 words." },
+      defaultValue: "Recrutez des talents grâce à la vidéo marque employeur",
+      admin: { description: "Large display text. Mix regular and italic using <i> tags." },
     },
     {
-      name: "badge",
+      name: "subheadline",
+      type: "textarea",
+      label: "Subheadline",
+      defaultValue:
+        "Nous aidons les entreprises à attirer les meilleurs talents en racontant leur réalité à travers la vidéo.",
+      admin: { rows: 3 },
+    },
+    {
+      name: "tag",
       type: "text",
-      label: "Pill Badge Text",
-      defaultValue: "New arrivals every week",
-      admin: { description: "Animated pill above the headline. Leave blank to hide." },
+      label: "Tag / Breadcrumb",
+      defaultValue: "RH & Entreprises",
+      admin: { description: "Small pill above the headline." },
+    },
+    {
+      name: "heroImage",
+      type: "upload",
+      relationTo: "media",
+      label: "Hero Image (right side)",
+      required: false,
+      admin: {
+        description: "Recommended size: 800×600px, portrait or square.",
+      },
+    },
+    {
+      name: "socialProof",
+      type: "group",
+      label: "Social Proof",
+      fields: [
+        {
+          name: "avatars",
+          type: "array",
+          label: "Avatar Images",
+          minRows: 2,
+          maxRows: 4,
+          fields: [
+            {
+              name: "image",
+              type: "upload",
+              relationTo: "media",
+              required: true,
+            },
+          ],
+          admin: { description: "Add 2–3 small circular photos." },
+        },
+        {
+          name: "text",
+          type: "text",
+          label: "Trust Text",
+          defaultValue: "Ils nous font déjà confiance",
+        },
+      ],
     },
     {
       name: "primaryCta",
       type: "group",
       label: "Primary Button",
       fields: [
-        {
-          type: "row",
-          fields: [
-            { name: "label", type: "text", label: "Label", defaultValue: "Browse the catalog", admin: { width: "50%" } },
-            { name: "href",  type: "text", label: "URL",   defaultValue: "/shop",               admin: { width: "50%" } },
-          ],
-        },
+        { name: "label", type: "text", label: "Label", defaultValue: "Prendre RDV" },
+        { name: "href",  type: "text", label: "URL",   defaultValue: "/contact" },
       ],
     },
+    // ── Keep existing fields (badge, backgroundType, etc.) for fallback ──
+    // but we won't use them in the new design. They can be removed later.
+    // For now, we keep them to avoid breaking existing code that might expect them.
+    // We'll set them to hidden or ignore them.
     {
-      name: "secondaryCta",
-      type: "group",
-      label: "Secondary Link",
-      fields: [
-        {
-          type: "row",
-          fields: [
-            { name: "label", type: "text", label: "Label", defaultValue: "Learn more", admin: { width: "50%" } },
-            { name: "href",  type: "text", label: "URL",   defaultValue: "/about",     admin: { width: "50%" } },
-          ],
-        },
+      name: "backgroundType",
+      type: "select",
+      label: "Background Type (deprecated)",
+      defaultValue: "gradient",
+      options: [
+        { label: "Gradient", value: "gradient" },
+        { label: "Image",    value: "image"    },
+        { label: "Video",    value: "video"    },
       ],
+      admin: { hidden: true },
+    },
+    {
+      name: "backgroundImage",
+      type: "upload",
+      relationTo: "media",
+      admin: { hidden: true },
+    },
+    {
+      name: "backgroundVideo",
+      type: "upload",
+      relationTo: "media",
+      admin: { hidden: true },
+    },
+    {
+      name: "overlayOpacity",
+      type: "text",
+      admin: { hidden: true },
+    },
+    {
+      name: "gradientColorsTopRight",
+      type: "text",
+      admin: { hidden: true },
+    },
+    {
+      name: "gradientColorsBottomLeft",
+      type: "text",
+      admin: { hidden: true },
+    },
+    {
+      name: "gradientColorsMidLeft",
+      type: "text",
+      admin: { hidden: true },
+    },
+    {
+      name: "gradientColorsBottomRight",
+      type: "text",
+      admin: { hidden: true },
+    },
+    {
+      name: "badge",
+      type: "text",
+      admin: { hidden: true },
+    },
+    {
+      name: "primaryCtaLabel",
+      type: "text",
+      admin: { hidden: true },
+    },
+    {
+      name: "primaryCtaHref",
+      type: "text",
+      admin: { hidden: true },
+    },
+    {
+      name: "secondaryCtaLabel",
+      type: "text",
+      admin: { hidden: true },
+    },
+    {
+      name: "secondaryCtaHref",
+      type: "text",
+      admin: { hidden: true },
     },
     {
       name: "scrollLabel",
       type: "text",
-      label: "Scroll Cue Label",
-      defaultValue: "Scroll",
-      admin: { description: "Tiny label above the scroll line. Leave blank to hide." },
+      admin: { hidden: true },
     },
   ],
 };
