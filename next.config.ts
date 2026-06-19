@@ -50,7 +50,7 @@ const nextConfig: NextConfig = {
 
     return webpackConfig
   },
-  reactStrictMode: true,
+  reactStrictMode: false,
   redirects,
   turbopack: {
     root: path.resolve(dirname),
